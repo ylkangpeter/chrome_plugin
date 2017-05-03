@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 var interval = 30;
-var keywords = [];
 var isContinue = true;
 var lastTime = new Date().toISOString().slice(0, 10) + " 08:00";
 
@@ -20,27 +19,7 @@ var MAX_SIZE = 50;
 // chrome.alarms.onAlarm.addListener(function( alarm ) {
 //   console.log("Got an alarm!", alarm);
 // });
-function flushConfig(interval, keywords, lastTime) {
-	localStorage.interval = interval;
-	localStorage.keywords = keywords;
-	localStorage.lastTime = lastTime;
-}
 
-function getInterval() {
-	return localStorage.interval;
-}
-
-function getKeywords() {
-	return localStorage.keywords;
-}
-
-function getLastTime() {
-	return localStorage.lastTime;
-}
-
-function getResult() {
-	return localStorage.result;
-}
 
 window.addEventListener("load", init, false);
 
@@ -49,11 +28,6 @@ function init() {
 		interval = parseInt(localStorage.interval)
 	} else {
 		localStorage.interval = interval;
-	}
-	if (localStorage.keywords != undefined) {
-		keywords = localStorage.keywords.split(",")
-	} else {
-		localStorage.keywords = keywords;
 	}
 	if (localStorage.lastTime != undefined) {
 		lastTime = localStorage.lastTime
@@ -98,6 +72,10 @@ function doIt(url) {
 			currentTime = formatDate($(updateTime[0]).text())
 		}
 
+		var keywords = localStorage.keywords;
+		if (keywords == undefined) {
+			keywords = ''
+		}
 		if (keywords.length == 0 || keywords[0] == '') {
 			console.log("print all");
 			for (var i = 0; i < titles.length; i++) {
@@ -108,6 +86,7 @@ function doIt(url) {
 		} else {
 			console.log("print filtered");
 			for (var i = 0; i < titles.length; i++) {
+				console.log(titles[i]);
 				for (var j = 0; j < keywords.length; j++) {
 					if (titles[i].text.includes(keywords[j]) && formatDate($(updateTime[i]).text()) > localStorage.lastTime) {
 						index.push(i);

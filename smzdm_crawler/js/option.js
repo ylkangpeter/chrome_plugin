@@ -33,3 +33,22 @@ $(document).ready(function() {
 		$('#ok').html("<font style='color:red'>updated! " + times + "</font>");
 	});
 });
+
+function flushConfig(interval, keywords, lastTime) {
+	localStorage.interval = interval;
+	localStorage.keywords = keywords;
+	localStorage.lastTime = lastTime;
+}
+
+function getInterval() {
+	return localStorage.interval;
+}
+
+function getKeywords() {
+	var words = localStorage.keywords;
+	return words.split(",").join("\n")
+}
+
+function getLastTime() {
+	return localStorage.lastTime;
+}

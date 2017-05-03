@@ -1,0 +1,42 @@
+{
+    // "background": {
+    //     "scripts": [
+    //         "js/jquery-3.2.1.min.js"
+    //         , "js/background.js"
+    //     ]
+    // },
+    "background": {
+        "persistent": true,
+        "page": "html/background.html"
+    },
+    "browser_action": {
+        "default_icon": "image/icon.png",
+        "default_popup": "popup.html",
+        "default_title": "smzdm crawler"
+    },
+    "description": "crawler for smzdm",
+    "icons": {
+        "48": "image/icon.png"
+    },
+    "options_page": "html/option.html",
+    "manifest_version": 2,
+    "name": "smzdm crawler",
+    "offline_enabled": true,
+    "permissions": [
+        // "http://*.smzdm.com/",
+        // "https://*.smzdm.com/",
+        "alarms",
+        "storage",
+        "tabs",
+        "webNavigation",
+        "notifications",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "content_scripts": [{
+        "js": ["js/jquery-3.2.1.min.js", "js/popup.js"],
+        "matches": ["http://www.smzdm.com/", "https://www.smzdm.com/"]
+    }],
+    "content_security_policy": " script-src 'self'; object-src 'self'",
+    "version": "1.0"
+}

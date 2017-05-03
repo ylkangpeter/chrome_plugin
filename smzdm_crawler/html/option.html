@@ -1,0 +1,24 @@
+<html><meta charset="utf-8" />
+<head>
+  <title>Options</title>
+  <style>
+  textarea {
+  height: 200px;
+  }
+  </style>
+  <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="../js/option.js"></script>
+    <script type="text/javascript" src="../js/background.js"></script>
+</head>
+<body><table>
+    <tr><td colspan="2">日期格式：2017-04-28 11:40</td></tr>
+    <tr><td colspan="2">刷新间隔：30分钟</td></tr>
+    <tr></tr>
+    <tr><td colspan="2">关键词：每行输入一个关键词，空表示爬取所有信息</td></tr>
+    <tr><td>开始日期:</td><td><input id="startDate"></td> 
+    <tr><td>刷新间隔:</td><td> <input id="interval" value="30">分钟</td> 
+    <tr><td>关键词:</td><td><textarea id="keywords"></textarea></td> 
+    <tr><td colspan="2"><button type="button" id="submit">提交</button></td></tr>
+    <tr><td colspan="2"><div id="ok"></div></td></tr></table>
+  </body>
+</html>

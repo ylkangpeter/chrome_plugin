@@ -46,6 +46,9 @@ function getInterval() {
 
 function getKeywords() {
 	var words = localStorage.keywords;
+	if (words == undefined) {
+		return "";
+	}
 	return words.split(",").join("\n")
 }
 

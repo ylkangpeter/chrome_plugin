@@ -1,10 +1,4 @@
 {
-    // "background": {
-    //     "scripts": [
-    //         "js/jquery-3.2.1.min.js"
-    //         , "js/background.js"
-    //     ]
-    // },
     "background": {
         "persistent": true,
         "page": "html/background.html"
@@ -23,8 +17,6 @@
     "name": "smzdm crawler",
     "offline_enabled": true,
     "permissions": [
-        // "http://*.smzdm.com/",
-        // "https://*.smzdm.com/",
         "alarms",
         "storage",
         "tabs",

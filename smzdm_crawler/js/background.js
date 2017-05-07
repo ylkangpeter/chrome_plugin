@@ -75,7 +75,9 @@ function doIt(url) {
 		var keywords = localStorage.keywords;
 		if (keywords == undefined) {
 			keywords = ''
-		}
+		}else{
+                  keywrods=keywords.split(",")
+                }
 		if (keywords.length == 0 || keywords[0] == '') {
 			console.log("print all");
 			for (var i = 0; i < titles.length; i++) {

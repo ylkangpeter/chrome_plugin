@@ -88,9 +88,9 @@ function doIt(url) {
 		} else {
 			console.log("print filtered");
 			for (var i = 0; i < titles.length; i++) {
-				console.log(titles[i]);
 				for (var j = 0; j < keywords.length; j++) {
 					if (titles[i].text.includes(keywords[j]) && formatDate($(updateTime[i]).text()) > localStorage.lastTime) {
+						console.log("match: "+titles[i].text);
 						index.push(i);
 						break;
 					}

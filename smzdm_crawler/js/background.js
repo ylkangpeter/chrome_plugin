@@ -101,7 +101,7 @@ function doIt(url) {
 		if (index.length > 0) {
 			for (var i = 0; i < index.length; i++) {
 				var text = "<tr>";
-				text = text + "<td>" + formatDate($(updateTime[index[i]]).text()) + "</td/>"
+				text = text + "<td class='mytd'>" + formatDate($(updateTime[index[i]]).text()) + "</td/>"
 				text = text + "<td>" + titles[index[i]].outerHTML + "</td/>"
 				text = text + "<td>" + pics[index[i]].outerHTML + "</td>" + "</tr>"
 					// $("#mybody").append(text)

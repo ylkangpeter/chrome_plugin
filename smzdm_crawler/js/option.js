@@ -38,6 +38,8 @@ function flushConfig(interval, keywords, lastTime) {
 	localStorage.interval = interval;
 	localStorage.keywords = keywords;
 	localStorage.lastTime = lastTime;
+
+	restartScheduler(interval)
 }
 
 function getInterval() {

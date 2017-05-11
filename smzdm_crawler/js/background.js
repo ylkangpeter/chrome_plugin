@@ -12,6 +12,8 @@ var currentTime = ""
 var tmpResult = [];
 var MAX_SIZE = 50;
 
+var inter
+
 // chrome.runtime.onInstalled.addListener(init);
 // chrome.alarms.onAlarm.addListener(onAlarm);
 // init();
@@ -37,7 +39,14 @@ function init() {
 
 	// check every XXX milliseconds
 	crawl()
-	var inter = setInterval(crawl, interval * 60 * 1000);
+	inter = setInterval(crawl, interval * 60 * 1000);
+}
+
+function restartScheduler(interval){
+	if (inter != undefined){
+		clearInterval(inter)
+	}
+	inter = setInterval(crawl, interval * 60 * 1000)
 }
 
 function crawl() {

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="GBK" />
+	<head>
+		<style>
+			body {
+				width: 300px;
+				height: 500px;
+			}
+			.Row {
+				display: table;
+				width: 250px; /*Optional*/
+				table-layout: fixed; /*Optional*/
+				border-spacing: 3px; /*Optional*/
+			}
+
+			.leftColumn {
+				display: table-cell;
+				width: 60px;
+			}
+
+			.Column {
+				display: table-cell;
+			}
+
+			input[type="text"]  {
+				/*font-size: 15px;*/
+				width: 250px;
+			}
+			img {
+				height: 300px;
+				width: 300px;
+			}	
+			div {
+				font-size: 12px
+			}
+		</style>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="js/popup.js"></script>
+		<script type="text/javascript" src="js/base64.js"></script>
+	</head>
+	<body id="mybody">
+		<div class="Row">
+			<div class="leftColumn">ak_id:</div>
+			<div class="Column"><input type="text" id="ak" name="ak"></div>
+		</div>
+		<div class="Row">
+			<div class="leftColumn">bird_id:</div>
+			<div class="Column"><input type="text" id="birdId" name="birdId"></div>
+		</div>
+		<div class="Row">
+			<div class="leftColumn">type:</div>
+			<div style="">
+				<input type="radio" id="type1" name="srcType" value="P" checked>图片
+				<input type="radio" id="type2" name="srcType" value="T">文本
+			</div>
+		</div>	
+		<div class="Row">
+			<div class="leftColumn">src:</div>
+			<div class="Column"><input type="text" id="src" name="src"></div>
+		</div>		
+		<div class="Row">
+			<div class="leftColumn"><button type="button" name="preview" id="preview">预览</div>
+			<div class="column"><button type="button" name="print" id="print">打印</div>
+		</div>
+		<div class="Row">
+			<div class="Column">---preview---</div>
+		</div>
+		<div class="Row">
+			<div class="leftColumn" id="message" name="message"></div>
+		</div>
+		<div class="Row">
+			<div class="Column"><img id="imgTag" src=""></div>
+		</div>
+	</body>
+</html>

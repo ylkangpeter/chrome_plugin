@@ -1,0 +1,28 @@
+{
+    "browser_action": {
+        "default_icon": "image/icon.png",
+        "default_popup": "popup.html",
+        "default_title": "gugu machine printer"
+    },
+    "description": "gugu machine printer",
+    "icons": {
+        "48": "image/icon.png"
+    },
+    "manifest_version": 2,
+    "name": "gugu",
+    "offline_enabled": true,
+    "permissions": [
+        "alarms",
+        "storage",
+        "tabs",
+        "webNavigation",
+        "notifications",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "content_scripts": [{
+        "js": ["js/jquery-3.2.1.min.js", "js/popup.js"],
+    }],
+    "content_security_policy": " script-src 'self'; object-src 'self'",
+    "version": "1.0"
+}

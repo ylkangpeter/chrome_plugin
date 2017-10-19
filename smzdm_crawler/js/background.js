@@ -10,9 +10,7 @@ var startUrl = "http://www.smzdm.com/youhui/";
 var currentTime = ""
 
 var tmpResult = [];
-var MAX_SIZE = 50;
-
-var inter
+var MAX_SIZE = 200;
 
 // chrome.runtime.onInstalled.addListener(init);
 // chrome.alarms.onAlarm.addListener(onAlarm);
@@ -26,6 +24,9 @@ var inter
 window.addEventListener("load", init, false);
 
 function init() {
+	$.ajaxSetup({ 
+	    async : false 
+	});
 	if (localStorage.interval != undefined) {
 		interval = parseInt(localStorage.interval)
 	} else {
@@ -42,8 +43,8 @@ function init() {
 	inter = setInterval(crawl, interval * 60 * 1000);
 }
 
-function restartScheduler(interval){
-	if (inter != undefined){
+function restartScheduler(interval) {
+	if (inter != undefined) {
 		clearInterval(inter)
 	}
 	inter = setInterval(crawl, interval * 60 * 1000)
@@ -53,13 +54,96 @@ function crawl() {
 	isContinue = true
 	doIt(startUrl)
 	var page = 2
-	while (isContinue) {
+	while (isContinue && page < 10) {
 		doIt(startUrl + "p" + page + "/")
 		page += 1
 	}
+	fillResult();
 }
 
 function doIt(url) {
+	$.get(url, function(html) {
+		html = $(html)
+		var titles = html.find(".list.list_preferential").find("h2").find("a");
+		var pics = html.find(".list.list_preferential").find(".picLeft").find("img");
+		var updateTime = html.find(".lrTime");
+
+		var index = [];
+
+		if (formatDate($(updateTime[0]).text()) > currentTime) {
+			currentTime = formatDate($(updateTime[0]).text())
+		}
+
+		var keywords = localStorage.keywords;
+		if (keywords == undefined) {
+			keywords = ''
+		} else {
+			keywords = keywords.split(",")
+		}
+		if (keywords.length == 0 || keywords[0] == '') {
+			console.log("print all");
+			for (var i = 0; i < titles.length; i++) {
+				if (formatDate($(updateTime[i]).text()) > localStorage.lastTime) {
+					index.push(i);
+				}
+			}
+		} else {
+			console.log("print filtered");
+			for (var i = 0; i < titles.length; i++) {
+				for (var j = 0; j < keywords.length; j++) {
+					if (titles[i].text.includes(keywords[j]) && formatDate($(updateTime[i]).text()) > localStorage.lastTime) {
+						console.log("match: " + titles[i].text);
+						index.push(i);
+						break;
+					}
+				}
+			}
+		}
+
+		if (index.length > 0) {
+			for (var i = 0; i < index.length; i++) {
+				var text = "<tr>";
+				text = text + "<td class='mytd'>" + formatDate($(updateTime[index[i]]).text()) + "</td/>"
+				text = text + "<td>" + titles[index[i]].outerHTML + "</td/>"
+				text = text + "<td>" + pics[index[i]].outerHTML + "</td>" + "</tr>"
+					// $("#mybody").append(text)
+				tmpResult.push(text);
+			}
+		}
+
+		if (formatDate($(updateTime[updateTime.length - 1]).text()) < localStorage.lastTime) {
+			localStorage.lastTime = currentTime
+			isContinue = false;
+		}
+
+
+	});
+}
+
+
+function fillResult() {
+	var tmp = localStorage.result
+	var result = [];
+
+	if (tmp != undefined) {
+		result = JSON.parse(tmp);
+	}
+
+	if (tmpResult.length > 0 && tmpResult[1] != '') {
+		showNotification(tmpResult.length)
+	}
+
+	for (var a = 0; a < result.length; a++) {
+		if (tmpResult.length > MAX_SIZE) {
+			break;
+		}
+		tmpResult.push(result[a])
+	}
+	localStorage.result = JSON.stringify(tmpResult);
+	tmpResult = []
+}
+
+function doIt1(url) {
 	var req = new XMLHttpRequest();
 	req.open(
 		"GET",
@@ -85,8 +169,8 @@ function doIt(url) {
 		if (keywords == undefined) {
 			keywords = ''
 		} else {
-            keywords = keywords.split(",")
-        }
+			keywords = keywords.split(",")
+		}
 		if (keywords.length == 0 || keywords[0] == '') {
 			console.log("print all");
 			for (var i = 0; i < titles.length; i++) {
@@ -99,7 +183,7 @@ function doIt(url) {
 			for (var i = 0; i < titles.length; i++) {
 				for (var j = 0; j < keywords.length; j++) {
 					if (titles[i].text.includes(keywords[j]) && formatDate($(updateTime[i]).text()) > localStorage.lastTime) {
-						console.log("match: "+titles[i].text);
+						console.log("match: " + titles[i].text);
 						index.push(i);
 						break;
 					}

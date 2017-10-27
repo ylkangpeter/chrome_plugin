@@ -58,6 +58,7 @@ function crawl() {
 		doIt(startUrl + "p" + page + "/")
 		page += 1
 	}
+	lastTime = currentTime;
 	fillResult();
 }
 
@@ -69,16 +70,15 @@ function doIt(url) {
 		var updateTime = html.find(".lrTime");
 
 		var index = [];
-
-		if (formatDate($(updateTime[0]).text()) > currentTime) {
-			currentTime = formatDate($(updateTime[0]).text())
+		var tmpTime = formatDate($(updateTime[0]).text());
+		if ( tmpTime > currentTime) {
+			currentTime = tmpTime;
 		}
 
-		if(currentTime < lastTime){
-			localStorage.lastTime = currentTime;
+		if(tmpTime <= lastTime){
 			isContinue = false;
 			return;
-		}
+		} 
 
 		var keywords = localStorage.keywords;
 		if (keywords == undefined) {

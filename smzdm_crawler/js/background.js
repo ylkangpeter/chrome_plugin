@@ -6,7 +6,7 @@ var interval = 30;
 var isContinue = true;
 var lastTime = new Date().toISOString().slice(0, 10) + " 08:00";
 
-var startUrl = "http://www.smzdm.com/youhui/";
+var startUrl = "https://www.smzdm.com/youhui/";
 var currentTime = ""
 
 var tmpResult = [];
@@ -63,7 +63,7 @@ function crawl() {
 
 function doIt(url) {
 	$.get(url, function(html) {
-		html = $(html)
+		html = $($.parseHTML(html));
 		var titles = html.find(".list.list_preferential").find("h2").find("a");
 		var pics = html.find(".list.list_preferential").find(".picLeft").find("img");
 		var updateTime = html.find(".lrTime");
@@ -72,6 +72,12 @@ function doIt(url) {
 
 		if (formatDate($(updateTime[0]).text()) > currentTime) {
 			currentTime = formatDate($(updateTime[0]).text())
+		}
+
+		if(currentTime < lastTime){
+			localStorage.lastTime = currentTime;
+			isContinue = false;
+			return;
 		}
 
 		var keywords = localStorage.keywords;
@@ -110,13 +116,6 @@ function doIt(url) {
 				tmpResult.push(text);
 			}
 		}
-
-		if (formatDate($(updateTime[updateTime.length - 1]).text()) < localStorage.lastTime) {
-			localStorage.lastTime = currentTime
-			isContinue = false;
-		}
-
-
 	});
 }
 
@@ -140,7 +139,7 @@ function fillResult() {
 		tmpResult.push(result[a])
 	}
 	localStorage.result = JSON.stringify(tmpResult);
-	tmpResult = []
+	tmpResult = [];
 }
 
 function doIt1(url) {
